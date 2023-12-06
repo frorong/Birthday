@@ -1,6 +1,12 @@
 import express, { Request, Response } from 'express';
 import next from 'next';
 
+import db from '../models';
+
+const { Member } = db;
+
+db.sequelize.sync();
+
 const dev = true;
 const port = 3000;
 const app = next({ dev, port });
