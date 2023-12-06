@@ -18,6 +18,7 @@ app.prepare().then(() => {
 
   server.post('/api/birthday/create', async (req, res) => {
     const newBirthday = req.body;
+    console.log(`This is Test : ${JSON.stringify(newBirthday)}`);
     const birthday = await Member.create(newBirthday);
     res.send(birthday);
   });
