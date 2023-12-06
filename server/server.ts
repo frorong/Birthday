@@ -3,6 +3,8 @@ import next from 'next';
 
 import db from '../models';
 
+const bodyParser = require('body-parser');
+
 const { Member } = db;
 
 db.sequelize.sync();
@@ -16,9 +18,11 @@ const handle = app.getRequestHandler();
 app.prepare().then(() => {
   const server = express();
 
+  server.use(bodyParser.urlencoded({ extended: true }));
+  server.use(bodyParser.json());
+
   server.post('/api/birthday/create', async (req, res) => {
     const newBirthday = req.body;
-    console.log(`This is Test : ${JSON.stringify(newBirthday)}`);
     const birthday = await Member.create(newBirthday);
     res.send(birthday);
   });
