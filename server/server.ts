@@ -52,8 +52,8 @@ app.prepare().then(() => {
     }
   });
 
-  server.get('/test', (req: Request, res: Response) => {
-    res.json({ test: '테스트' });
+  server.get('/api/healthcheck', (req: Request, res: Response) => {
+    res.json({ test: '정상작동' });
   });
 
   server.all('*', (req: Request, res: Response) => {
