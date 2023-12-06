@@ -1,7 +1,5 @@
 import express, { Request, Response } from 'express';
-import { createServer } from 'http';
 import next from 'next';
-import { parse } from 'url';
 
 const dev = true;
 const port = 3000;

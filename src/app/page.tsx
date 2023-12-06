@@ -13,5 +13,5 @@ export default function Home() {
   useEffect(() => {
     test();
   }, []);
-  return <div></div>;
+  return <div>test</div>;
 }
