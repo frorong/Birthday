@@ -1,10 +1,10 @@
 export interface BirthdayType {
-  id: number;
   name: string;
   birthday: Date;
 }
 
 export interface BirthdayResponseType extends BirthdayType {
+  id: number;
   createdAt: Date;
   updatedAt: Date;
 }

@@ -5,16 +5,40 @@ import styled from '@emotion/styled';
 import { Frame, VectorIcon } from '@/assets';
 import { usePostComment } from '@/hooks';
 import { Comment } from '.';
+import { CommentType } from '@/types';
 
-import { useState } from 'react';
+import { toast } from 'react-toastify';
+
+import { useEffect, useState } from 'react';
 
 const BirthdayInfo = () => {
   const [inputValue, setInputValue] = useState('');
+  const [name, setName] = useState('');
   const [isWrite, setIsWrite] = useState<boolean>(false);
 
   const { mutate } = usePostComment();
 
-  const onSubmit = (inputValue: string) => {};
+  const onSubmit = () => {
+    if (inputValue.replaceAll('\n', '').replaceAll('\u0020', '').length !== 0) {
+      const req: CommentType = {
+        name: name ?? '익명의 사용자',
+        content: inputValue,
+        key: 1,
+      };
+
+      mutate(req);
+    } else toast.error('내용을 입력해주세요.');
+  };
+
+  const onClick = () => {
+    if (!isWrite) setIsWrite(true);
+    else onSubmit();
+  };
+
+  useEffect(() => {
+    const greeting = prompt('본인의 이름을 적어주세요.', '');
+    if (greeting) setName(greeting);
+  }, []);
 
   return (
     <Container>
@@ -37,7 +61,7 @@ const BirthdayInfo = () => {
           ) : (
             <Comment inputValue={inputValue} setInputValue={setInputValue} />
           )}
-          <CongButton>
+          <CongButton onClick={onClick}>
             {!isWrite ? '축하메세지 쓰기' : '메시지 등록하기'}
           </CongButton>
         </FrameContainer>
