@@ -9,7 +9,11 @@ const BirthdayInfo = () => {
     <Container>
       <BackBoard>
         <FrameContainer>
+          <DateText>12월 7일 (목)</DateText>
           <Frame />
+          <TextContainer>
+            <CongUser>오늘은 동욱님의 생일이에요!!</CongUser>
+          </TextContainer>
         </FrameContainer>
         <CongButton>축하메세지 쓰기</CongButton>
         <NextButton>
@@ -45,6 +49,30 @@ const FrameContainer = styled.div`
   border: 0.1875rem solid #000;
   background: #e2e7f2;
   padding-left: 0.9375rem;
+`;
+
+const TextContainer = styled.div`
+  position: absolute;
+  top: 15.625rem;
+  width: calc(100% - 7rem);
+  display: flex;
+  justify-content: center;
+`;
+
+const CongUser = styled.p`
+  color: #000;
+  font-size: 1.75rem;
+  font-weight: 600;
+`;
+
+const DateText = styled.span`
+  color: #000;
+  font-size: 1.25rem;
+  font-weight: 600;
+
+  position: absolute;
+  top: 4.375rem;
+  left: 4.8rem;
 `;
 
 const CongButton = styled.button`
