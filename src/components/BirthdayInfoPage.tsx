@@ -6,7 +6,7 @@ import { Frame, VectorIcon } from '@/assets';
 import { usePostComment, useGetBirthday, useGetCommentList } from '@/hooks';
 import { Comment } from '.';
 import { CommentType } from '@/types';
-import { formatDate } from '@/utils';
+import { formatDate, isSameMonthAndDay } from '@/utils';
 
 import { toast } from 'react-toastify';
 
@@ -88,7 +88,11 @@ const BirthdayInfo: React.FC<Props> = ({ birthdayId }) => {
                   ) : (
                     <>
                       <CongUser>
-                        오늘은 {data.data.name}님의 생일이에요!!
+                        {isSameMonthAndDay(data.data.birthday)
+                          ? '오늘은'
+                          : data.data.birthday.toString().slice(5, 10) +
+                            '는'}{' '}
+                        {data.data.name}님의 생일이에요!!
                       </CongUser>
                       <AfterText>
                         페이지를 넘겨서 축하메시지를 확인해보세요!
