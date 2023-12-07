@@ -56,11 +56,20 @@ app.prepare().then(() => {
 
   //comment
   server.post('/api/birthday/comment/:id', async (req, res) => {
-    const newBirthday = req.body;
-    const birthday = await Member.create(newBirthday);
-    res.send(birthday);
+    const { id } = req.params;
+    let newComment = req.body;
+    newComment.key = id;
+    const comment = await Comment.create(newComment);
+    res.send(comment);
   });
 
+  server.get('/api/birthday/comment/list/:id', async (req, res) => {
+    const { id } = req.params;
+    const comments = await Comment.findAll({ where: { key: id } });
+    res.send(comments);
+  });
+
+  //else
   server.get('/api/healthcheck', (req: Request, res: Response) => {
     res.json({ test: '정상작동' });
   });
