@@ -7,12 +7,7 @@ import type { UseMutationOptions } from '@tanstack/react-query';
 import type { AxiosError } from 'axios';
 
 export const usePostBirthday = (
-  options?: UseMutationOptions<
-    BirthdayResponseType,
-    AxiosError,
-    BirthdayType,
-    unknown
-  >
+  options?: UseMutationOptions<BirthdayResponseType, AxiosError, BirthdayType>
 ) =>
   useMutation({
     mutationKey: birthdayQueryKeys.postBirthday(),
