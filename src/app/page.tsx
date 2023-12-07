@@ -25,6 +25,7 @@ export default function Home() {
 
   return (
     <div>
+      <button onClick={getHealthcheck}>healthcheck</button>
       <button onClick={postBirthday}>postBirthday</button>
       <button onClick={getBirthdayList}>getBirthdayList</button>
       <button onClick={getBirthday}>getBirthday</button>
