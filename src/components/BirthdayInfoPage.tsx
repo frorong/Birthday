@@ -3,24 +3,43 @@
 import styled from '@emotion/styled';
 
 import { Frame, VectorIcon } from '@/assets';
-
+import { usePostComment } from '@/hooks';
 import { Comment } from '.';
 
+import { useState } from 'react';
+
 const BirthdayInfo = () => {
+  const [inputValue, setInputValue] = useState('');
+  const [isWrite, setIsWrite] = useState<boolean>(false);
+
+  const { mutate } = usePostComment();
+
+  const onSubmit = (inputValue: string) => {};
+
   return (
     <Container>
       <BackBoard>
         <FrameContainer>
           <DateText>12월 7일 (목)</DateText>
-          <Frame />
-          <TextContainer>
-            <CongUser>오늘은 동욱님의 생일이에요!!</CongUser>
-            <AfterText>페이지를 넘겨서 축하메시지를 확인해보세요!</AfterText>
-          </TextContainer>
-          <CongButton>축하메세지 쓰기</CongButton>
-          <NextButton>
-            <VectorIcon />
-          </NextButton>
+          {!isWrite ? (
+            <>
+              <Frame />
+              <TextContainer>
+                <CongUser>오늘은 동욱님의 생일이에요!!</CongUser>
+                <AfterText>
+                  페이지를 넘겨서 축하메시지를 확인해보세요!
+                </AfterText>
+              </TextContainer>
+              <NextButton>
+                <VectorIcon />
+              </NextButton>
+            </>
+          ) : (
+            <Comment inputValue={inputValue} setInputValue={setInputValue} />
+          )}
+          <CongButton>
+            {!isWrite ? '축하메세지 쓰기' : '메시지 등록하기'}
+          </CongButton>
         </FrameContainer>
       </BackBoard>
     </Container>

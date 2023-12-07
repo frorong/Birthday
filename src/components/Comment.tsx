@@ -2,10 +2,24 @@
 
 import styled from '@emotion/styled';
 
-const Comment = () => {
+import { usePostComment } from '@/hooks';
+
+import { Dispatch, SetStateAction } from 'react';
+
+interface Props {
+  inputValue: string;
+  setInputValue: Dispatch<SetStateAction<string>>;
+}
+
+const Comment: React.FC<Props> = ({ inputValue, setInputValue }) => {
   return (
     <Container>
-      <MessageInput maxLength={450} placeholder='축하메시지를 남겨주세요.' />
+      <MessageInput
+        value={inputValue}
+        onChange={(e) => setInputValue(e.target.value)}
+        maxLength={450}
+        placeholder='축하메시지를 남겨주세요.'
+      />
     </Container>
   );
 };

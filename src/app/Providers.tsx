@@ -8,75 +8,92 @@ import { Global, css } from '@emotion/react';
 
 import { PupleIcon, GreenIcon, YellowIcon } from '@/assets';
 
+import { QueryClient, QueryClientProvider } from '@tanstack/react-query';
+import { useState } from 'react';
+
 interface Props {
   children: React.ReactNode;
 }
 
-const Providers: React.FC<Props> = ({ children }) => (
-  <>
-    <Global
-      styles={css`
-        ${emotionReset}
+const Providers: React.FC<Props> = ({ children }) => {
+  const [queryClient] = useState(
+    () =>
+      new QueryClient({
+        defaultOptions: {
+          queries: {
+            retry: false,
+          },
+        },
+      })
+  );
 
-        body,
-        * {
-          font-family: 'Pretendard Variable', Pretendard, -apple-system,
-            BlinkMacSystemFont, system-ui, Roboto, 'Helvetica Neue', 'Segoe UI',
-            'Apple SD Gothic Neo', 'Noto Sans KR', 'Malgun Gothic',
-            'Apple Color Emoji', 'Segoe UI Emoji', 'Segoe UI Symbol', sans-serif;
-          box-sizing: border-box;
-        }
+  return (
+    <>
+      <Global
+        styles={css`
+          ${emotionReset}
 
-        body {
-          height: 100vh;
-          height: 100dvh;
-          background-color: #f2815f;
-          display: flex;
-          flex-direction: column;
-          align-items: center;
-        }
+          body,
+          * {
+            font-family: 'Pretendard Variable', Pretendard, -apple-system,
+              BlinkMacSystemFont, system-ui, Roboto, 'Helvetica Neue',
+              'Segoe UI', 'Apple SD Gothic Neo', 'Noto Sans KR', 'Malgun Gothic',
+              'Apple Color Emoji', 'Segoe UI Emoji', 'Segoe UI Symbol',
+              sans-serif;
+            box-sizing: border-box;
+          }
 
-        button {
-          padding: 0;
-          border: none;
-          outline: none;
-          background: inherit;
-          cursor: pointer;
-        }
-      `}
-    />
-    <div
-      css={css`
-        position: absolute;
-        top: 0rem;
-        left: 0rem;
-        z-index: -1;
-      `}
-    >
-      <PupleIcon />
-    </div>
-    <div
-      css={css`
-        position: absolute;
-        top: 12.375rem;
-        right: 0rem;
-        z-index: -1;
-      `}
-    >
-      <YellowIcon />
-    </div>
-    <div
-      css={css`
-        position: absolute;
-        bottom: 0rem;
-        left: 15.4375rem;
-        z-index: -1;
-      `}
-    >
-      <GreenIcon />
-    </div>
-    {children}
-  </>
-);
+          body {
+            height: 100vh;
+            height: 100dvh;
+            background-color: #f2815f;
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+          }
+
+          button {
+            padding: 0;
+            border: none;
+            outline: none;
+            background: inherit;
+            cursor: pointer;
+          }
+        `}
+      />
+      <div
+        css={css`
+          position: absolute;
+          top: 0rem;
+          left: 0rem;
+          z-index: -1;
+        `}
+      >
+        <PupleIcon />
+      </div>
+      <div
+        css={css`
+          position: absolute;
+          top: 12.375rem;
+          right: 0rem;
+          z-index: -1;
+        `}
+      >
+        <YellowIcon />
+      </div>
+      <div
+        css={css`
+          position: absolute;
+          bottom: 0rem;
+          left: 15.4375rem;
+          z-index: -1;
+        `}
+      >
+        <GreenIcon />
+      </div>
+      <QueryClientProvider client={queryClient}>{children}</QueryClientProvider>
+    </>
+  );
+};
 
 export default Providers;
