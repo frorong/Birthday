@@ -3,7 +3,7 @@
 import styled from '@emotion/styled';
 
 import { Frame, VectorIcon } from '@/assets';
-import { usePostComment, useGetBirthday } from '@/hooks';
+import { usePostComment, useGetBirthday, useGetCommentList } from '@/hooks';
 import { Comment } from '.';
 import { CommentType } from '@/types';
 import { formatDate } from '@/utils';
@@ -20,8 +20,10 @@ const BirthdayInfo: React.FC<Props> = ({ birthdayId }) => {
   const [inputValue, setInputValue] = useState('');
   const [name, setName] = useState('');
   const [isWrite, setIsWrite] = useState<boolean>(false);
+  const [index, setIndex] = useState<number>(0);
 
   const { data } = useGetBirthday(parseInt(birthdayId));
+  const { data: comments } = useGetCommentList(parseInt(birthdayId));
 
   const { mutate } = usePostComment({
     onSuccess: () => {

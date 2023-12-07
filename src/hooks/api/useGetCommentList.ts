@@ -5,14 +5,16 @@ import type { CommentResponseType } from '@/types';
 
 import type { UseQueryOptions } from '@tanstack/react-query';
 
+interface ResType {
+  data: CommentResponseType[];
+}
+
 export const useGetCommentList = (
   id: number,
-  options?: Omit<UseQueryOptions<CommentResponseType[]>, 'queryKey'>
+  options?: Omit<UseQueryOptions<ResType>, 'queryKey'>
 ) =>
   useQuery({
     queryKey: commentQueryKeys.getCommentList(id),
-    queryFn: () => get<CommentResponseType[]>(commentUrl.getCommentList(id)),
-    staleTime: 300000,
-    gcTime: 300000,
+    queryFn: () => get<ResType>(commentUrl.getCommentList(id)),
     ...options,
   });

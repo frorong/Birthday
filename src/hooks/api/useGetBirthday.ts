@@ -16,7 +16,5 @@ export const useGetBirthday = (
   useQuery({
     queryKey: birthdayQueryKeys.getBirthday(id),
     queryFn: () => get<ResType>(birthdayUrl.getBirthday(id)),
-    staleTime: 300000,
-    gcTime: 300000,
     ...options,
   });

@@ -7,7 +7,7 @@ export const birthdayUrl = {
 
 export const commentUrl = {
   postComment: () => '/comment/create',
-  getCommentList: (id: number) => `/comment/list${id}`,
+  getCommentList: (id: number) => `/comment/list/${id}`,
 };
 
 export const healthcheckUrl = {
