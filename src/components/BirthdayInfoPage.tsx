@@ -20,7 +20,8 @@ const BirthdayInfo: React.FC<Props> = ({ birthdayId }) => {
   const [inputValue, setInputValue] = useState('');
   const [name, setName] = useState('');
   const [isWrite, setIsWrite] = useState<boolean>(false);
-  const [index, setIndex] = useState<number>(0);
+  const [isSeeComment, setIsSeeComment] = useState<boolean>(false);
+  const [index, setIndex] = useState<number>(-1);
 
   const { data } = useGetBirthday(parseInt(birthdayId));
   const { data: comments } = useGetCommentList(parseInt(birthdayId));
@@ -53,6 +54,18 @@ const BirthdayInfo: React.FC<Props> = ({ birthdayId }) => {
     if (greeting) setName(greeting);
   }, []);
 
+  const goNext = () => {
+    setIsSeeComment(true);
+    if ((comments?.data.length ?? 0) > index + 1) setIndex((prev) => prev + 1);
+  };
+
+  const goPrev = () => {
+    if (index === 0) {
+      setIsSeeComment(false);
+      setIndex(-1);
+    } else setIndex((prev) => prev - 1);
+  };
+
   return (
     <Container>
       {data?.data ? (
@@ -63,14 +76,36 @@ const BirthdayInfo: React.FC<Props> = ({ birthdayId }) => {
               <>
                 <Frame />
                 <TextContainer>
-                  <CongUser>오늘은 {data.data.name}님의 생일이에요!!</CongUser>
-                  <AfterText>
-                    페이지를 넘겨서 축하메시지를 확인해보세요!
-                  </AfterText>
+                  {isSeeComment ? (
+                    <>
+                      <CongUser>
+                        {comments?.data[index].name ?? '이름을 알 수 없어요'}
+                      </CongUser>
+                      <CongText>
+                        {comments?.data[index].content ?? '콘텐츠가 없어요'}
+                      </CongText>
+                    </>
+                  ) : (
+                    <>
+                      <CongUser>
+                        오늘은 {data.data.name}님의 생일이에요!!
+                      </CongUser>
+                      <AfterText>
+                        페이지를 넘겨서 축하메시지를 확인해보세요!
+                      </AfterText>
+                    </>
+                  )}
                 </TextContainer>
-                <NextButton>
-                  <VectorIcon />
-                </NextButton>
+                {(comments?.data.length ?? 0) > 0 && (
+                  <NextButton onClick={goNext}>
+                    <VectorIcon />
+                  </NextButton>
+                )}
+                {index > -1 && (
+                  <PrevButton onClick={goPrev}>
+                    <VectorIcon />
+                  </PrevButton>
+                )}
               </>
             ) : (
               <Comment inputValue={inputValue} setInputValue={setInputValue} />
@@ -121,7 +156,6 @@ const TextContainer = styled.div`
   display: flex;
   flex-direction: column;
   align-items: center;
-  gap: 7.625rem;
   justify-content: center;
 `;
 
@@ -170,8 +204,17 @@ const NextButton = styled.button`
   right: 0.625rem;
 `;
 
-const AfterText = styled.p`
+const PrevButton = styled(NextButton)`
+  left: 0.625rem;
+  transform: rotate(180deg);
+`;
+
+const CongText = styled.p`
   color: #000;
   font-size: 1.25rem;
   font-weight: 500;
+`;
+
+const AfterText = styled(CongText)`
+  margin-top: 7.625rem;
 `;
