@@ -3,7 +3,7 @@
 import styled from '@emotion/styled';
 
 import { Frame, VectorIcon } from '@/assets';
-import { usePostComment } from '@/hooks';
+import { usePostComment, useGetBirthday } from '@/hooks';
 import { Comment } from '.';
 import { CommentType } from '@/types';
 
@@ -11,10 +11,16 @@ import { toast } from 'react-toastify';
 
 import { useEffect, useState } from 'react';
 
-const BirthdayInfo = () => {
+interface Props {
+  birthdayId: string;
+}
+
+const BirthdayInfo: React.FC<Props> = ({ birthdayId }) => {
   const [inputValue, setInputValue] = useState('');
   const [name, setName] = useState('');
   const [isWrite, setIsWrite] = useState<boolean>(false);
+
+  const { data } = useGetBirthday(parseInt(birthdayId));
 
   const { mutate } = usePostComment({
     onSuccess: () => {
@@ -27,7 +33,7 @@ const BirthdayInfo = () => {
       const req: CommentType = {
         name: name ?? '익명의 사용자',
         content: inputValue,
-        key: 1,
+        key: data?.id ?? 0,
       };
 
       mutate(req);
@@ -44,32 +50,44 @@ const BirthdayInfo = () => {
     if (greeting) setName(greeting);
   }, []);
 
+  const formatDate = (date: Date) => {
+    if (date) {
+      const originalDateString: string = date.toString();
+
+      return originalDateString;
+    }
+  };
+
   return (
     <Container>
-      <BackBoard>
-        <FrameContainer>
-          <DateText>12월 7일 (목)</DateText>
-          {!isWrite ? (
-            <>
-              <Frame />
-              <TextContainer>
-                <CongUser>오늘은 동욱님의 생일이에요!!</CongUser>
-                <AfterText>
-                  페이지를 넘겨서 축하메시지를 확인해보세요!
-                </AfterText>
-              </TextContainer>
-              <NextButton>
-                <VectorIcon />
-              </NextButton>
-            </>
-          ) : (
-            <Comment inputValue={inputValue} setInputValue={setInputValue} />
-          )}
-          <CongButton onClick={onClick}>
-            {!isWrite ? '축하메세지 쓰기' : '메시지 등록하기'}
-          </CongButton>
-        </FrameContainer>
-      </BackBoard>
+      {data ? (
+        <BackBoard>
+          <FrameContainer>
+            <DateText>{formatDate(data.birthday)}</DateText>
+            {!isWrite ? (
+              <>
+                <Frame />
+                <TextContainer>
+                  <CongUser>오늘은 {data.name}님의 생일이에요!!</CongUser>
+                  <AfterText>
+                    페이지를 넘겨서 축하메시지를 확인해보세요!
+                  </AfterText>
+                </TextContainer>
+                <NextButton>
+                  <VectorIcon />
+                </NextButton>
+              </>
+            ) : (
+              <Comment inputValue={inputValue} setInputValue={setInputValue} />
+            )}
+            <CongButton onClick={onClick}>
+              {!isWrite ? '축하메세지 쓰기' : '메시지 등록하기'}
+            </CongButton>
+          </FrameContainer>
+        </BackBoard>
+      ) : (
+        <h1>404</h1>
+      )}
     </Container>
   );
 };
