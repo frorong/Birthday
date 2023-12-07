@@ -1,1 +1,1 @@
-export * from './birthdayResponse';
+export * from './birthday';
