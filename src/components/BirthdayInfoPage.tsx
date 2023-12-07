@@ -4,21 +4,24 @@ import styled from '@emotion/styled';
 
 import { Frame, VectorIcon } from '@/assets';
 
+import { Comment } from '.';
+
 const BirthdayInfo = () => {
   return (
     <Container>
       <BackBoard>
         <FrameContainer>
           <DateText>12월 7일 (목)</DateText>
-          <Frame />
+          {/* <Frame />
           <TextContainer>
             <CongUser>오늘은 동욱님의 생일이에요!!</CongUser>
           </TextContainer>
+          <CongButton>축하메세지 쓰기</CongButton>
+          <NextButton>
+            <VectorIcon />
+          </NextButton> */}
+          <Comment />
         </FrameContainer>
-        <CongButton>축하메세지 쓰기</CongButton>
-        <NextButton>
-          <VectorIcon />
-        </NextButton>
       </BackBoard>
     </Container>
   );
