@@ -68,7 +68,7 @@ app.prepare().then(() => {
   });
 
   //else
-  server.get('/api/healthcheck', (req: Request, res: Response) => {
+  server.get('/api/birthday/healthcheck', (req: Request, res: Response) => {
     res.json({ test: '정상작동' });
   });
 
