@@ -1,6 +1,7 @@
 import type { Metadata } from 'next';
 
 import Providers from './Providers';
+import 'react-toastify/dist/ReactToastify.css';
 
 export const metadata: Metadata = {
   title: 'Birthday',

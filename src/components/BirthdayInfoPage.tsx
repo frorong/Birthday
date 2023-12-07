@@ -34,7 +34,7 @@ const BirthdayInfo: React.FC<Props> = ({ birthdayId }) => {
   const onSubmit = () => {
     if (inputValue.replaceAll('\n', '').replaceAll('\u0020', '').length !== 0) {
       const req: CommentType = {
-        name: name ?? '익명의 사용자',
+        name: name.length > 0 ? name : '익명의 사용자',
         content: inputValue,
         key: data?.data.id ?? 0,
       };

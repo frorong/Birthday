@@ -10,6 +10,7 @@ import { PupleIcon, GreenIcon, YellowIcon } from '@/assets';
 
 import { QueryClient, QueryClientProvider } from '@tanstack/react-query';
 import { useState } from 'react';
+import { ToastContainer } from 'react-toastify';
 
 interface Props {
   children: React.ReactNode;
@@ -91,6 +92,7 @@ const Providers: React.FC<Props> = ({ children }) => {
       >
         <GreenIcon />
       </div>
+      <ToastContainer />
       <QueryClientProvider client={queryClient}>{children}</QueryClientProvider>
     </>
   );
