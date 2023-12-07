@@ -23,12 +23,20 @@ export default function Home() {
     const res = await axios.delete(`/api/birthday/${40}`);
   };
 
+  const postComment = async () => {
+    const res = await axios.post(`/api/birthday/comment/${1}`, {
+      name: '이동욱',
+      content: '생일축하해',
+    });
+  };
+
   return (
     <div>
       <button onClick={getHealthcheck}>healthcheck</button>
       <button onClick={postBirthday}>postBirthday</button>
       <button onClick={getBirthdayList}>getBirthdayList</button>
       <button onClick={getBirthday}>getBirthday</button>
+      <button onClick={postComment}>postComment</button>
     </div>
   );
 }

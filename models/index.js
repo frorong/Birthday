@@ -20,8 +20,8 @@ const db = {};
 db.Member = Member;
 db.Comment = Comment;
 
-Member.associate(db);
-Comment.associate(db);
+// Member.associate(db);
+// Comment.associate(db);
 
 module.exports = db;
 
