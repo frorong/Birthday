@@ -63,7 +63,7 @@ const Providers: React.FC<Props> = ({ children }) => (
     <div
       css={css`
         position: absolute;
-        top: 0rem;
+        bottom: 0rem;
         left: 15.4375rem;
       `}
     >
