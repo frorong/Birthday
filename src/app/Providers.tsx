@@ -1,8 +1,12 @@
+/**@jsxImportSource @emotion/react */
+
 'use client';
 
 import emotionReset from 'emotion-reset';
 
 import { Global, css } from '@emotion/react';
+
+import { PupleIcon, GreenIcon, YellowIcon } from '@/assets';
 
 interface Props {
   children: React.ReactNode;
@@ -38,6 +42,33 @@ const Providers: React.FC<Props> = ({ children }) => (
         }
       `}
     />
+    <div
+      css={css`
+        position: absolute;
+        top: 0rem;
+        left: 0rem;
+      `}
+    >
+      <PupleIcon />
+    </div>
+    <div
+      css={css`
+        position: absolute;
+        top: 12.375rem;
+        right: 0rem;
+      `}
+    >
+      <YellowIcon />
+    </div>
+    <div
+      css={css`
+        position: absolute;
+        top: 0rem;
+        left: 15.4375rem;
+      `}
+    >
+      <GreenIcon />
+    </div>
     {children}
   </>
 );
