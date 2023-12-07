@@ -14,9 +14,14 @@ const sequelize = new Sequelize(database, username, password, {
 });
 
 const Member = require('./member')(sequelize, Sequelize.DataTypes);
+const Comment = require('./comment')(sequelize, Sequelize.DataTypes);
 
 const db = {};
 db.Member = Member;
+db.Comment = Comment;
+
+Member.associate(db);
+Comment.associate(db);
 
 module.exports = db;
 

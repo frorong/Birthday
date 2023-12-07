@@ -6,6 +6,7 @@ import db from '../models';
 const bodyParser = require('body-parser');
 
 const { Member } = db;
+const { Comment } = db;
 
 db.sequelize.sync();
 
@@ -21,6 +22,7 @@ app.prepare().then(() => {
   server.use(bodyParser.urlencoded({ extended: true }));
   server.use(bodyParser.json());
 
+  //member
   server.post('/api/birthday/create', async (req, res) => {
     const newBirthday = req.body;
     const birthday = await Member.create(newBirthday);
@@ -50,6 +52,13 @@ app.prepare().then(() => {
     } else {
       res.status(404).send({ message: '일치하는 id를 가진 생일이 없습니다.' });
     }
+  });
+
+  //comment
+  server.post('/api/birthday/comment/:id', async (req, res) => {
+    const newBirthday = req.body;
+    const birthday = await Member.create(newBirthday);
+    res.send(birthday);
   });
 
   server.get('/api/healthcheck', (req: Request, res: Response) => {
