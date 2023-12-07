@@ -20,6 +20,9 @@ dependencies:
   body-parser:
     specifier: ^1.20.2
     version: 1.20.2
+  emotion-reset:
+    specifier: ^3.0.1
+    version: 3.0.1(@emotion/react@11.11.1)
   express:
     specifier: ^4.18.2
     version: 4.18.2
@@ -951,6 +954,14 @@ packages:
 
   /emoji-regex@9.2.2:
     resolution: {integrity: sha512-L18DaJsXSUk2+42pv8mLs5jJT2hqFkFE4j21wOmgbUqsZ2hL72NsUU785g9RXgo3s0ZNgVl42TiHp3ZtOv/Vyg==}
+    dev: false
+
+  /emotion-reset@3.0.1(@emotion/react@11.11.1):
+    resolution: {integrity: sha512-v6scW83qSu+wtxg7lX1s0+/2U4EAAGFxDQMkvXE10jhKtyuXCzy3/su5/MU9ZjXeNv6ZjxZH51WktrKosKUy9g==}
+    peerDependencies:
+      '@emotion/react': '>=11'
+    dependencies:
+      '@emotion/react': 11.11.1(@types/react@18.0.0)(react@18.0.0)
     dev: false
 
   /encodeurl@1.0.2:
