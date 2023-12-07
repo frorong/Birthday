@@ -33,7 +33,7 @@ const BirthdayInfo: React.FC<Props> = ({ birthdayId }) => {
       const req: CommentType = {
         name: name ?? '익명의 사용자',
         content: inputValue,
-        key: data?.id ?? 0,
+        key: data?.data.id ?? 0,
       };
 
       mutate(req);
@@ -60,15 +60,15 @@ const BirthdayInfo: React.FC<Props> = ({ birthdayId }) => {
 
   return (
     <Container>
-      {data ? (
+      {data?.data ? (
         <BackBoard>
           <FrameContainer>
-            <DateText>{formatDate(data.birthday)}</DateText>
+            <DateText>{formatDate(data.data.birthday)}</DateText>
             {!isWrite ? (
               <>
                 <Frame />
                 <TextContainer>
-                  <CongUser>오늘은 {data.name}님의 생일이에요!!</CongUser>
+                  <CongUser>오늘은 {data.data.name}님의 생일이에요!!</CongUser>
                   <AfterText>
                     페이지를 넘겨서 축하메시지를 확인해보세요!
                   </AfterText>
