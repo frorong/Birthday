@@ -6,6 +6,7 @@ import { Frame, VectorIcon } from '@/assets';
 import { usePostComment, useGetBirthday } from '@/hooks';
 import { Comment } from '.';
 import { CommentType } from '@/types';
+import { formatDate } from '@/utils';
 
 import { toast } from 'react-toastify';
 
@@ -50,14 +51,6 @@ const BirthdayInfo: React.FC<Props> = ({ birthdayId }) => {
     if (greeting) setName(greeting);
   }, []);
 
-  const formatDate = (date: Date) => {
-    if (date) {
-      const originalDateString: string = date.toString();
-
-      return originalDateString;
-    }
-  };
-
   return (
     <Container>
       {data?.data ? (
@@ -86,7 +79,7 @@ const BirthdayInfo: React.FC<Props> = ({ birthdayId }) => {
           </FrameContainer>
         </BackBoard>
       ) : (
-        <h1>404</h1>
+        <h1>데이터를 기다리고있어요...</h1>
       )}
     </Container>
   );
