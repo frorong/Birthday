@@ -16,7 +16,11 @@ const BirthdayInfo = () => {
   const [name, setName] = useState('');
   const [isWrite, setIsWrite] = useState<boolean>(false);
 
-  const { mutate } = usePostComment();
+  const { mutate } = usePostComment({
+    onSuccess: () => {
+      window.location.reload();
+    },
+  });
 
   const onSubmit = () => {
     if (inputValue.replaceAll('\n', '').replaceAll('\u0020', '').length !== 0) {
