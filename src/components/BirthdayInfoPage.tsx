@@ -90,8 +90,7 @@ const BirthdayInfo: React.FC<Props> = ({ birthdayId }) => {
                       <CongUser>
                         {isSameMonthAndDay(data.data.birthday)
                           ? '오늘은'
-                          : data.data.birthday.toString().slice(5, 10) +
-                            '는'}{' '}
+                          : formatDate(data.data.birthday)}{' '}
                         {data.data.name}님의 생일이에요!!
                       </CongUser>
                       <AfterText>
