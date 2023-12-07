@@ -71,7 +71,7 @@ const BirthdayInfo: React.FC<Props> = ({ birthdayId }) => {
       {data?.data ? (
         <BackBoard>
           <FrameContainer>
-            <DateText>{formatDate(data.data.birthday)}</DateText>
+            <DateText>{formatDate(new Date())}</DateText>
             {!isWrite ? (
               <>
                 <Frame />
