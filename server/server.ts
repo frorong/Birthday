@@ -55,10 +55,8 @@ app.prepare().then(() => {
   });
 
   //comment
-  server.post('/api/birthday/comment/:id', async (req, res) => {
-    const { id } = req.params;
-    let newComment = req.body;
-    newComment.key = id;
+  server.post('/api/birthday/comment/create', async (req, res) => {
+    const newComment = req.body;
     const comment = await Comment.create(newComment);
     res.send(comment);
   });

@@ -24,10 +24,15 @@ export default function Home() {
   };
 
   const postComment = async () => {
-    const res = await axios.post(`/api/birthday/comment/${1}`, {
-      name: '이동욱',
+    const res = await axios.post(`/api/birthday/comment/create`, {
+      name: '윤태빈',
       content: '생일축하해',
+      key: 2,
     });
+  };
+
+  const getCommentList = async () => {
+    const res = await axios.get(`/api/birthday/comment/list/${2}`);
   };
 
   return (
@@ -37,6 +42,7 @@ export default function Home() {
       <button onClick={getBirthdayList}>getBirthdayList</button>
       <button onClick={getBirthday}>getBirthday</button>
       <button onClick={postComment}>postComment</button>
+      <button onClick={getCommentList}>getCommentList</button>
     </div>
   );
 }
