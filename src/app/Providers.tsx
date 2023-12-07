@@ -31,6 +31,9 @@ const Providers: React.FC<Props> = ({ children }) => (
           height: 100vh;
           height: 100dvh;
           background-color: #f2815f;
+          display: flex;
+          flex-direction: column;
+          align-items: center;
         }
 
         button {
@@ -47,6 +50,7 @@ const Providers: React.FC<Props> = ({ children }) => (
         position: absolute;
         top: 0rem;
         left: 0rem;
+        z-index: -1;
       `}
     >
       <PupleIcon />
@@ -56,6 +60,7 @@ const Providers: React.FC<Props> = ({ children }) => (
         position: absolute;
         top: 12.375rem;
         right: 0rem;
+        z-index: -1;
       `}
     >
       <YellowIcon />
@@ -65,6 +70,7 @@ const Providers: React.FC<Props> = ({ children }) => (
         position: absolute;
         bottom: 0rem;
         left: 15.4375rem;
+        z-index: -1;
       `}
     >
       <GreenIcon />
