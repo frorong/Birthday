@@ -2,6 +2,8 @@
 
 import axios from 'axios';
 
+import { BirthdayContent } from '@/components';
+
 export default function Home() {
   const getHealthcheck = async () => {
     const res = await axios.get('/api/healthcheck');
@@ -43,6 +45,7 @@ export default function Home() {
       <button onClick={getBirthday}>getBirthday</button>
       <button onClick={postComment}>postComment</button>
       <button onClick={getCommentList}>getCommentList</button>
+      <BirthdayContent />
     </div>
   );
 }
