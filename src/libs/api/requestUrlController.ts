@@ -1,6 +1,6 @@
 export const birthdayUrl = {
   postBirthday: () => '/create',
-  getBirthdayList: () => '/list',
+  getBirthdayList: (month: number) => `/list/${month}`,
   getBirthday: (id: number) => `/${id}`,
   deleteBirthday: (id: number) => `/${id}`,
 };

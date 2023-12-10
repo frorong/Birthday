@@ -17,12 +17,16 @@ const MainPage = () => {
       <Today>{formatDate(new Date())}</Today>
       <Months>
         {[1, 2, 3, 4, 5, 6, 7, 8, 9, 10, 11, 12].map((month, i) => (
-          <MonthWrapper isSameIndex={i == index} onClick={() => setIndex(i)}>
+          <MonthWrapper
+            key={month}
+            isSameIndex={i == index}
+            onClick={() => setIndex(i)}
+          >
             <Month>{month}</Month>
           </MonthWrapper>
         ))}
       </Months>
-      <BirthdayCarousel />
+      <BirthdayCarousel month={index + 1} />
     </>
   );
 };

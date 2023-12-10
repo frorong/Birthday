@@ -1,7 +1,8 @@
 import express, { Request, Response } from 'express';
 import next from 'next';
 
-import db from '../models';
+import db, { sequelize } from '../models';
+import { Op } from 'sequelize';
 
 const bodyParser = require('body-parser');
 
@@ -29,8 +30,14 @@ app.prepare().then(() => {
     res.send(birthday);
   });
 
-  server.get('/api/birthday/list', async (req, res) => {
-    const birthdays = await Member.findAll();
+  server.get('/api/birthday/list/:month', async (req, res) => {
+    const { month } = req.params;
+    const birthdays = await Member.findAll({
+      where: sequelize.where(
+        sequelize.fn('MONTH', sequelize.col('birthday')),
+        +month
+      ),
+    });
     res.send(birthdays);
   });
 

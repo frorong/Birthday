@@ -12,14 +12,18 @@ import { useGetBirthdayList } from '@/hooks';
 import styled from '@emotion/styled';
 import { useWindowResizeEffect } from '@/utils';
 
-const MissionCarousel = () => {
+interface Props {
+  month: number;
+}
+
+const MissionCarousel: React.FC<Props> = ({ month }) => {
   const [pageIndex, setPageIndex] = useState<number>(0);
   const [birthdayList, setBirthdayList] = useState<BirthdayResponseType[][]>();
   const [width, setWidth] = useState(1920);
 
   useWindowResizeEffect(setWidth);
 
-  const { data } = useGetBirthdayList();
+  const { data } = useGetBirthdayList(month);
   const { push } = useRouter();
 
   const [count, setCount] = useState<number>(10);

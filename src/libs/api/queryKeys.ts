@@ -1,6 +1,6 @@
 export const birthdayQueryKeys = {
   postBirthday: () => ['birthday', 'create'],
-  getBirthdayList: () => ['birthday', 'list'],
+  getBirthdayList: (month: number) => ['birthday', 'list', String(month)],
   getBirthday: (id: number) => ['birthday', String(id)],
   deleteBirthday: (id: number) => ['birthday', 'delete', String(id)],
 } as const;
