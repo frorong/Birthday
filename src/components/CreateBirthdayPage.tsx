@@ -81,6 +81,10 @@ const Header = styled.div`
   align-items: center;
   justify-content: center;
   margin: 3.875rem 0 3.875rem;
+
+  @media (max-width: 1630px) {
+    width: calc(100vw - 10rem);
+  }
 `;
 
 const Title = styled.h1`

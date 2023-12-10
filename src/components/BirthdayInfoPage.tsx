@@ -10,7 +10,7 @@ import { formatDate, isSameMonthAndDay } from '@/utils';
 
 import { toast } from 'react-toastify';
 
-import { useEffect, useState } from 'react';
+import { useState } from 'react';
 
 interface Props {
   birthdayId: string;
@@ -131,6 +131,13 @@ export default BirthdayInfo;
 
 const Container = styled.div`
   padding-top: 6%;
+
+  @media (max-width: 930px) {
+    svg {
+      width: 100%;
+      height: 100%;
+    }
+  }
 `;
 
 const BackBoard = styled.div`
@@ -143,6 +150,10 @@ const BackBoard = styled.div`
   padding-top: 2.5rem;
 
   position: relative;
+
+  @media (max-width: 930px) {
+    width: calc(100vw - 5.5rem);
+  }
 `;
 
 const FrameContainer = styled.div`
@@ -152,6 +163,10 @@ const FrameContainer = styled.div`
   border: 0.1875rem solid #000;
   background: #e2e7f2;
   padding-left: 0.9375rem;
+
+  @media (max-width: 930px) {
+    width: calc(100vw - 8.5rem);
+  }
 `;
 
 const TextContainer = styled.div`
@@ -178,6 +193,10 @@ const DateText = styled.span`
   position: absolute;
   top: 4.375rem;
   left: 4.8rem;
+
+  @media (max-width: 930px) {
+    left: 3.8rem;
+  }
 `;
 
 const CongButton = styled.button`
@@ -198,6 +217,11 @@ const CongButton = styled.button`
   position: absolute;
   top: 35.625rem;
   left: 6.125rem;
+
+  @media (max-width: 930px) {
+    left: 10%;
+    width: 80%;
+  }
 `;
 
 const NextButton = styled.button`
@@ -207,11 +231,19 @@ const NextButton = styled.button`
   height: 4.125rem;
   top: 15.125rem;
   right: 0.625rem;
+
+  @media (max-width: 930px) {
+    right: 0.225rem;
+  }
 `;
 
 const PrevButton = styled(NextButton)`
   left: 0.625rem;
   transform: rotate(180deg);
+
+  @media (max-width: 930px) {
+    left: 0.225rem;
+  }
 `;
 
 const CongText = styled.p`

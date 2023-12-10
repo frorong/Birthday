@@ -87,6 +87,12 @@ const Providers: React.FC<Props> = ({ children }) => {
               font-size: 8px;
             }
           }
+
+          body {
+            @media (max-width: 599px) {
+              overflow: hidden;
+            }
+          }
         `}
       />
       <div
