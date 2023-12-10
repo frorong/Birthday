@@ -4,8 +4,14 @@ import styled from '@emotion/styled';
 
 import { BirthdayFrame } from '@/assets';
 
-const BirthdayContent = () => (
-  <Container>
+interface Props {
+  onClick: () => void;
+  name: string;
+  birthday: Date;
+}
+
+const BirthdayContent: React.FC<Props> = ({ birthday, name, onClick }) => (
+  <Container onClick={onClick}>
     <FrameContainer>
       <BirthdayFrame />
     </FrameContainer>

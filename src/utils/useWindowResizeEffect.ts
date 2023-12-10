@@ -2,8 +2,7 @@
 
 import { Dispatch, SetStateAction, useEffect } from 'react';
 
-const useWindowResizeEffect = (
-  width: number,
+export const useWindowResizeEffect = (
   setWidth: Dispatch<SetStateAction<number>>
 ) => {
   const handleResize = () => {
@@ -19,4 +18,4 @@ const useWindowResizeEffect = (
   }, []);
 };
 
-export default useWindowResizeEffect;
+useWindowResizeEffect;
