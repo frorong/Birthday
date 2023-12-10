@@ -2,17 +2,23 @@
 'use client';
 
 import { BirthdayCarousel } from '.';
-import { formatDate } from '@/utils';
+import { formatDate, useWindowResizeEffect } from '@/utils';
 
 import styled from '@emotion/styled';
 import { useState } from 'react';
 
 import { useRouter } from 'next/navigation';
 
+const TWO_LINE_SIZE = 930;
+
 const MainPage = () => {
   const [index, setIndex] = useState(0);
 
+  const [width, setWidth] = useState(1920);
+
   const { push } = useRouter();
+
+  useWindowResizeEffect(setWidth);
 
   return (
     <>
@@ -26,15 +32,42 @@ const MainPage = () => {
         <PlusButton onClick={() => push('/create')}>생일 생성</PlusButton>
       </Header>
       <Months>
-        {[1, 2, 3, 4, 5, 6, 7, 8, 9, 10, 11, 12].map((month, i) => (
-          <MonthWrapper
-            key={month}
-            isSameIndex={i == index}
-            onClick={() => setIndex(i)}
-          >
-            <Month>{month}</Month>
-          </MonthWrapper>
-        ))}
+        {width > TWO_LINE_SIZE ? (
+          [1, 2, 3, 4, 5, 6, 7, 8, 9, 10, 11, 12].map((month, i) => (
+            <MonthWrapper
+              key={month}
+              isSameIndex={i == index}
+              onClick={() => setIndex(i)}
+            >
+              <Month>{month}</Month>
+            </MonthWrapper>
+          ))
+        ) : (
+          <MonthsWrapper>
+            <Months>
+              {[1, 2, 3, 4, 5, 6].map((month, i) => (
+                <MonthWrapper
+                  key={month}
+                  isSameIndex={i == index}
+                  onClick={() => setIndex(i)}
+                >
+                  <Month>{month}</Month>
+                </MonthWrapper>
+              ))}
+            </Months>
+            <Months>
+              {[7, 8, 9, 10, 11, 12].map((month, i) => (
+                <MonthWrapper
+                  key={month}
+                  isSameIndex={i + 6 == index}
+                  onClick={() => setIndex(i + 6)}
+                >
+                  <Month>{month}</Month>
+                </MonthWrapper>
+              ))}
+            </Months>
+          </MonthsWrapper>
+        )}
       </Months>
       <BirthdayCarousel month={index + 1} />
     </>
@@ -43,12 +76,27 @@ const MainPage = () => {
 
 export default MainPage;
 
+const MonthsWrapper = styled.div`
+  display: flex;
+  @media (max-width: 930px) {
+    flex-direction: column;
+  }
+`;
+
 const Header = styled.div`
   width: 86.875rem;
   display: flex;
   align-items: center;
   justify-content: space-between;
   margin-top: 3.875rem;
+
+  @media (max-width: 1630px) {
+    width: calc(100vw - 12.5rem);
+  }
+
+  @media (max-width: 1280px) {
+    width: calc(100vw - 3rem);
+  }
 `;
 
 const Any = styled.div`
@@ -71,6 +119,20 @@ const PlusButton = styled.button`
   :hover {
     box-shadow: 0 0 0.625rem 0.3125rem;
   }
+
+  @media (max-width: 1630px) {
+    height: 4rem;
+    width: 8rem;
+    font-size: 1.8rem;
+    border-radius: 2rem;
+  }
+
+  @media (max-width: 930px) {
+    height: 3rem;
+    width: 6rem;
+    font-size: 1.2rem;
+    border-radius: 1rem;
+  }
 `;
 
 const Today = styled.h1`
@@ -83,6 +145,10 @@ const Months = styled.div`
   display: inline-flex;
   gap: 1.75rem;
   margin: 2% 0 4%;
+
+  @media (max-width: 1630px) {
+    gap: 1.75rem;
+  }
 `;
 
 const MonthWrapper = styled.div<{ isSameIndex: boolean }>`
@@ -99,6 +165,16 @@ const MonthWrapper = styled.div<{ isSameIndex: boolean }>`
 
   :hover {
     box-shadow: 0 0 0.625rem 0.3125rem;
+  }
+
+  @media (max-width: 1630px) {
+    width: 3.825rem;
+    height: 3.825rem;
+  }
+
+  @media (max-width: 1280px) {
+    width: 2.825rem;
+    height: 2.825rem;
   }
 `;
 

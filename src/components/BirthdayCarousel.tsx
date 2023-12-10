@@ -34,9 +34,9 @@ const MissionCarousel: React.FC<Props> = ({ month }) => {
 
   const resetCount = async () => {
     let cnt: number;
-    if (width > 1440) cnt = 8;
-    else if (width > 1060) cnt = 6;
-    else if (width > 700) cnt = 4;
+    if (width > 1630) cnt = 8;
+    else if (width > 1280) cnt = 6;
+    else if (width > 930) cnt = 4;
     else if (width > 380) cnt = 2;
     else cnt = 2;
     await setCount(cnt);
