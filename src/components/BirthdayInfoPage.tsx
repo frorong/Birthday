@@ -45,14 +45,12 @@ const BirthdayInfo: React.FC<Props> = ({ birthdayId }) => {
   };
 
   const onClick = () => {
-    if (!isWrite) setIsWrite(true);
-    else onSubmit();
+    if (!isWrite) {
+      setIsWrite(true);
+      const greeting = prompt('본인의 이름을 적어주세요.', '');
+      if (greeting) setName(greeting);
+    } else onSubmit();
   };
-
-  useEffect(() => {
-    const greeting = prompt('본인의 이름을 적어주세요.', '');
-    if (greeting) setName(greeting);
-  }, []);
 
   const goNext = () => {
     setIsSeeComment(true);
