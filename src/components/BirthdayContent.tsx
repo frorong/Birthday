@@ -21,6 +21,7 @@ const BirthdayContent: React.FC<Props> = ({ birthday, name, onClick }) => (
 export default BirthdayContent;
 
 const Container = styled.div`
+  cursor: pointer;
   display: flex;
   flex-direction: column;
   align-items: center;

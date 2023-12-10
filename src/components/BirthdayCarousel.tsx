@@ -44,23 +44,23 @@ const MissionCarousel = () => {
 
     const newBirthdayList: BirthdayResponseType[][] = [];
     let temp: BirthdayResponseType[] = [];
-    data?.forEach((item, index) => {
+    data?.data.forEach((item, index) => {
       temp.push(item);
       if ((index + 1) % cnt === 0) {
         newBirthdayList.push(temp);
         temp = [];
       }
     });
-    if (data)
+    if (data?.data)
       newBirthdayList.push(
-        data.slice(newBirthdayList.length * cnt, data.length)
+        data.data.slice(newBirthdayList.length * cnt, data.data.length)
       );
     setBirthdayList(newBirthdayList);
   };
 
   useEffect(() => {
     setArray();
-  }, [data, width]);
+  }, [data?.data, width]);
 
   return (
     <>
@@ -94,7 +94,7 @@ export const ContentWrapper = styled.div<{ taskCard?: number }>`
   display: grid;
   grid-template-columns: repeat(${(props) => props.taskCard}, 1fr);
   grid-template-rows: repeat(2, 1fr);
-  gap: 1.1875rem 3.125rem;
+  gap: 3.125rem 1.1875rem;
   width: fit-content;
 `;
 

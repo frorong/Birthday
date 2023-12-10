@@ -2,7 +2,7 @@
 
 import axios from 'axios';
 
-import { BirthdayContent } from '@/components';
+import { BirthdayCarousel } from '@/components';
 
 export default function Home() {
   const getHealthcheck = async () => {
@@ -45,7 +45,7 @@ export default function Home() {
       <button onClick={getBirthday}>getBirthday</button>
       <button onClick={postComment}>postComment</button>
       <button onClick={getCommentList}>getCommentList</button>
-      <BirthdayContent />
+      <BirthdayCarousel />
     </div>
   );
 }

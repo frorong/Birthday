@@ -5,13 +5,15 @@ import type { BirthdayResponseType } from '@/types';
 
 import type { UseQueryOptions } from '@tanstack/react-query';
 
+interface ResponseType {
+  data: BirthdayResponseType[];
+}
+
 export const useGetBirthdayList = (
-  options?: Omit<UseQueryOptions<BirthdayResponseType[]>, 'queryKey'>
+  options?: Omit<UseQueryOptions<ResponseType>, 'queryKey'>
 ) =>
   useQuery({
     queryKey: birthdayQueryKeys.getBirthdayList(),
-    queryFn: () => get<BirthdayResponseType[]>(birthdayUrl.getBirthdayList()),
-    staleTime: 300000,
-    gcTime: 300000,
+    queryFn: () => get<ResponseType>(birthdayUrl.getBirthdayList()),
     ...options,
   });
