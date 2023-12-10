@@ -14,6 +14,10 @@ const MainPage = () => {
 
   return (
     <>
+      <meta
+        name='viewport'
+        content='width=device-width, initial-scale=1, maximum-scale=1'
+      />
       <Today>{formatDate(new Date())}</Today>
       <Months>
         {[1, 2, 3, 4, 5, 6, 7, 8, 9, 10, 11, 12].map((month, i) => (
