@@ -10,18 +10,35 @@ import { AdapterDayjs } from '@mui/x-date-pickers/AdapterDayjs';
 import { LocalizationProvider } from '@mui/x-date-pickers/LocalizationProvider';
 import { MobileDatePicker } from '@mui/x-date-pickers';
 
+import { toast } from 'react-toastify';
+
 import { useEffect, useState } from 'react';
+import { useRouter } from 'next/navigation';
 
 const CreateBirthdayPage = () => {
   const [birthday, setBirthday] = useState<Dayjs | null>(null);
   const [name, setName] = useState<string>('');
 
-  const { mutate: birthdayMutate } = usePostBirthday();
+  const { push } = useRouter();
+
+  const { mutate: birthdayMutate, isPending, isSuccess } = usePostBirthday();
 
   useEffect(() => {
     const newDate = birthday?.format();
     if (newDate) console.log(new Date(newDate));
   }, [birthday]);
+
+  const onSubmit = () => {
+    const newDate = birthday?.format();
+    if (name && newDate)
+      birthdayMutate({
+        name: name,
+        birthday: new Date(newDate),
+      });
+    else toast.error('입력되지 않은 빈칸이 있습니다.');
+  };
+
+  if (isSuccess) push('/');
 
   return (
     <>
@@ -46,8 +63,10 @@ const CreateBirthdayPage = () => {
           />
         </FrameContainer>
         <ButtonWrapper>
-          <SubmitButton>생성</SubmitButton>
-          <SubmitButton>취소</SubmitButton>
+          <SubmitButton disabled={isPending || isSuccess} onClick={onSubmit}>
+            생성
+          </SubmitButton>
+          <SubmitButton onClick={() => push('/')}>취소</SubmitButton>
         </ButtonWrapper>
       </Container>
     </>
@@ -120,8 +139,9 @@ const ButtonWrapper = styled.div`
 const Input = styled.input`
   width: 200px;
   height: 56px;
-  font-size: 20px;
-  font-weight: 600;
+  font-size: 18px;
+
+  padding-left: 10px;
   outline: none;
   background-color: #e2e7f2;
   border-radius: 3px;
