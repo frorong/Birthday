@@ -1,10 +1,10 @@
 import { createConnection, Connection, ConnectionOptions } from 'mysql2';
 
 var db_info: ConnectionOptions = {
-  host: 'localhost',
-  port: 3000,
+  host: process.env.DB_HOST,
+  port: parseInt(process.env.DB_PORT ?? '1'),
   user: 'root',
-  password: '1234',
+  password: process.env.DB_PW,
   database: 'react_node',
 };
 

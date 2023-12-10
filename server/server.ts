@@ -2,7 +2,6 @@ import express, { Request, Response } from 'express';
 import next from 'next';
 
 import db, { sequelize } from '../models';
-import { Op } from 'sequelize';
 
 const bodyParser = require('body-parser');
 
@@ -11,7 +10,7 @@ const { Comment } = db;
 
 db.sequelize.sync();
 
-const dev = true;
+const dev = process.env.NODE_ENV === 'development';
 const port = 3000;
 const app = next({ dev, port });
 
