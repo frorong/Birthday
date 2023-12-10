@@ -250,6 +250,7 @@ const CongText = styled.p`
   color: #000;
   font-size: 1.25rem;
   font-weight: 500;
+  margin-top: 1.25rem;
 `;
 
 const AfterText = styled(CongText)`
