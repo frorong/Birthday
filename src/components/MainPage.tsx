@@ -12,7 +12,9 @@ import { useRouter } from 'next/navigation';
 const TWO_LINE_SIZE = 930;
 
 const MainPage = () => {
-  const [index, setIndex] = useState(0);
+  const today = formatDate(new Date());
+
+  const [index, setIndex] = useState(parseInt(today.slice(4, 6)));
 
   const [width, setWidth] = useState(1920);
 
@@ -28,7 +30,7 @@ const MainPage = () => {
       />
       <Header>
         <Any />
-        <Today>{formatDate(new Date())}</Today>
+        <Today>{today}</Today>
         <PlusButton onClick={() => push('/create')}>생일 생성</PlusButton>
       </Header>
       <Months>
