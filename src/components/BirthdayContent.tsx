@@ -36,6 +36,15 @@ const Container = styled.div`
   border-radius: 1.25rem;
   background: #fff;
   position: relative;
+
+  transition: ease-in-out 0.2s;
+
+  :hover {
+    box-shadow: 0 0.875rem 1.75rem rgba(0, 0, 0, 0.25),
+      0 0.625rem 0.625rem rgba(0, 0, 0, 0.22);
+    position: relative;
+    transform: translateY(-0.625rem);
+  }
 `;
 
 const FrameContainer = styled.div`
