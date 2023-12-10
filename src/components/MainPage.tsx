@@ -1,6 +1,6 @@
 'use client';
 
-import { usePostBirthday } from '@/hooks';
+import { useGetBirthdayList, usePostBirthday } from '@/hooks';
 import { BirthdayCarousel } from '.';
 import { formatDate } from '@/utils';
 

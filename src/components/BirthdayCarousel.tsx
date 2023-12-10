@@ -5,7 +5,7 @@ import { useRouter } from 'next/navigation';
 import { useEffect, useState } from 'react';
 
 import { BirthdayResponseType } from '@/types';
-import { VectorIcon } from '@/assets';
+import { VectorIcon, NotFound } from '@/assets';
 import { BirthdayContent } from '@/components';
 import { useGetBirthdayList } from '@/hooks';
 
@@ -66,10 +66,26 @@ const MissionCarousel: React.FC<Props> = ({ month }) => {
     setArray();
   }, [data?.data, width]);
 
+  const moveLeft = () => {
+    if (pageIndex > 0) setPageIndex((prev) => prev - 1);
+  };
+
+  const moveRight = () => {
+    if (birthdayList && pageIndex < birthdayList.length - 1)
+      if (
+        pageIndex !== birthdayList.length - 2 ||
+        birthdayList[birthdayList.length - 1][0]
+      )
+        setPageIndex((prev) => prev + 1);
+  };
+
   return (
     <>
-      {birthdayList?.length != 0 && birthdayList && (
+      {birthdayList && birthdayList[0] && birthdayList[0].length > 0 ? (
         <CarouselWrapper>
+          <LeftWrapper onClick={moveLeft}>
+            {pageIndex > 0 && <VectorIcon />}
+          </LeftWrapper>
           <ContentWrapper taskCard={count / 2}>
             {birthdayList[pageIndex]?.map((birthday) => (
               <BirthdayContent
@@ -80,7 +96,12 @@ const MissionCarousel: React.FC<Props> = ({ month }) => {
               />
             ))}
           </ContentWrapper>
+          <PointerWrapper onClick={moveRight}>
+            {birthdayList[1] && <VectorIcon />}
+          </PointerWrapper>
         </CarouselWrapper>
+      ) : (
+        <NotFound />
       )}
     </>
   );
@@ -88,13 +109,13 @@ const MissionCarousel: React.FC<Props> = ({ month }) => {
 
 export default MissionCarousel;
 
-export const CarouselWrapper = styled.div`
+const CarouselWrapper = styled.div`
   display: flex;
   align-items: center;
   gap: 3rem;
 `;
 
-export const ContentWrapper = styled.div<{ taskCard?: number }>`
+const ContentWrapper = styled.div<{ taskCard?: number }>`
   display: grid;
   grid-template-columns: repeat(${(props) => props.taskCard}, 1fr);
   grid-template-rows: repeat(2, 1fr);
@@ -102,6 +123,11 @@ export const ContentWrapper = styled.div<{ taskCard?: number }>`
   width: fit-content;
 `;
 
-export const PointerWrapper = styled.div`
+const PointerWrapper = styled.div`
   cursor: pointer;
+  width: 4.125rem;
+`;
+
+const LeftWrapper = styled(PointerWrapper)`
+  transform: rotate(180deg);
 `;
