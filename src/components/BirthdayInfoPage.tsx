@@ -26,7 +26,7 @@ const BirthdayInfo: React.FC<Props> = ({ birthdayId }) => {
   const { data } = useGetBirthday(parseInt(birthdayId));
   const { data: comments } = useGetCommentList(parseInt(birthdayId));
 
-  const { mutate } = usePostComment({
+  const { mutate, isSuccess, isPending } = usePostComment({
     onSuccess: () => {
       window.location.reload();
     },
@@ -115,7 +115,7 @@ const BirthdayInfo: React.FC<Props> = ({ birthdayId }) => {
             ) : (
               <Comment inputValue={inputValue} setInputValue={setInputValue} />
             )}
-            <CongButton onClick={onClick}>
+            <CongButton disabled={isPending || isSuccess} onClick={onClick}>
               {!isWrite ? '축하메세지 쓰기' : '메시지 등록하기'}
             </CongButton>
           </FrameContainer>
