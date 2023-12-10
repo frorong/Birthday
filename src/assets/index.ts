@@ -5,3 +5,4 @@ export { default as Frame } from './Frame';
 export { default as BirthdayFrame } from './BirthdayFrame';
 export { default as NotFound } from './NotFound';
 export { default as VectorIcon } from './VectorIcon';
+export { default as BirthdayText } from './BirthdayText';

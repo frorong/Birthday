@@ -3,9 +3,12 @@
 
 import { BirthdayCarousel } from '.';
 import { formatDate, useWindowResizeEffect } from '@/utils';
+import { BirthdayText } from '@/assets';
 
 import styled from '@emotion/styled';
-import { useState } from 'react';
+import { css } from '@emotion/react';
+
+import { useEffect, useState } from 'react';
 
 import { useRouter } from 'next/navigation';
 
@@ -15,6 +18,8 @@ const MainPage = () => {
   const today = formatDate(new Date());
 
   const [index, setIndex] = useState(parseInt(today.slice(4, 6)));
+  const [intro, setIntro] = useState<boolean>(true);
+  const [opacity, setOpacity] = useState<number>(1);
 
   const [width, setWidth] = useState(1920);
 
@@ -22,12 +27,28 @@ const MainPage = () => {
 
   useWindowResizeEffect(setWidth);
 
+  useEffect(() => {
+    setTimeout(() => setIntro(false), 2000);
+    setInterval(() => {
+      setOpacity((prev) => prev - 0.004);
+    }, 10);
+  }, []);
+
   return (
     <>
       <meta
         name='viewport'
         content='width=device-width, initial-scale=1, maximum-scale=1'
       />
+      {intro && (
+        <Intro
+          css={css`
+            opacity: ${opacity};
+          `}
+        >
+          <BirthdayText />
+        </Intro>
+      )}
       <Header>
         <Any />
         <Today>{today}</Today>
@@ -77,6 +98,17 @@ const MainPage = () => {
 };
 
 export default MainPage;
+
+const Intro = styled.div`
+  width: 100vw;
+  height: 100vh;
+  background-color: #f2815f;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  position: absolute;
+  z-index: 5;
+`;
 
 const MonthsWrapper = styled.div`
   display: flex;
