@@ -197,7 +197,7 @@ const CongButton = styled.button`
 
   position: absolute;
   top: 35.625rem;
-  left: 98px;
+  left: 6.125rem;
 `;
 
 const NextButton = styled.button`
