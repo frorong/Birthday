@@ -43,7 +43,7 @@ const CreateBirthdayPage = () => {
   return (
     <>
       <Header>
-        <Title>생일 생성하기!</Title>
+        <Title>생일 추가하기!</Title>
       </Header>
       <Container>
         <FrameContainer>

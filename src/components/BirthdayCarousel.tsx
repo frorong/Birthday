@@ -5,7 +5,7 @@ import { useRouter } from 'next/navigation';
 import { useEffect, useState } from 'react';
 
 import { BirthdayResponseType } from '@/types';
-import { VectorIcon, NotFound } from '@/assets';
+import { VectorIcon } from '@/assets';
 import { BirthdayContent } from '@/components';
 import { useGetBirthdayList } from '@/hooks';
 
@@ -101,13 +101,41 @@ const MissionCarousel: React.FC<Props> = ({ month }) => {
           </PointerWrapper>
         </CarouselWrapper>
       ) : (
-        <NotFound />
+        <NotFoundTextWrapper>
+          <NotFoundText>아직 등록된</NotFoundText>
+          <NotFoundText>{'       '}생일이 없어요...</NotFoundText>
+        </NotFoundTextWrapper>
       )}
     </>
   );
 };
 
 export default MissionCarousel;
+
+const NotFoundTextWrapper = styled.div`
+  display: flex;
+  flex-direction: column;
+  gap: 3.75rem;
+  margin-top: 3.125rem;
+`;
+
+const NotFoundText = styled.pre`
+  @font-face {
+    font-family: 'insungitCutelivelyjisu';
+    src: url('https://cdn.jsdelivr.net/gh/projectnoonnu/noonfonts_11-01@1.0/insungitCutelivelyjisu.woff2')
+      format('woff2');
+    font-weight: normal;
+    font-style: normal;
+  }
+
+  font-family: 'insungitCutelivelyjisu';
+  color: #fff;
+  font-size: 6.25rem;
+
+  @media (max-width: 930px) {
+    font-size: 4.25rem;
+  }
+`;
 
 const CarouselWrapper = styled.div`
   display: flex;

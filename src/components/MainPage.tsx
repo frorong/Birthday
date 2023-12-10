@@ -52,7 +52,7 @@ const MainPage = () => {
       <Header>
         <Any />
         <Today>{today}</Today>
-        <PlusButton onClick={() => push('/create')}>생일 생성</PlusButton>
+        <PlusButton onClick={() => push('/create')}>생일 추가</PlusButton>
       </Header>
       <Months>
         {width > TWO_LINE_SIZE ? (
