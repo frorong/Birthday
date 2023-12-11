@@ -5,8 +5,9 @@
   "scripts": {
     "dev": "nodemon --watch '*.tsx' --exec 'ts-node' --project tsconfig.server.json server/server.ts ",
     "build": "next build",
-    "start": "next start",
-    "lint": "next lint"
+    "start": "nodemon --watch '*.tsx' --exec 'ts-node' --project tsconfig.server.json server/server.ts ",
+    "lint": "next lint",
+    "heroku-postbuild": "pnpm install && pnpm run build"
   },
   "dependencies": {
     "@emotion/react": "^11.11.1",
