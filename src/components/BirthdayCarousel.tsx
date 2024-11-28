@@ -7,10 +7,11 @@ import { useEffect, useState } from 'react';
 import { BirthdayResponseType } from '@/types';
 import { VectorIcon } from '@/assets';
 import { BirthdayContent } from '@/components';
-import { useGetBirthdayList } from '@/hooks';
 
 import styled from '@emotion/styled';
 import { useWindowResizeEffect } from '@/utils';
+import fireStore from '@/firebase/firestore';
+import { onSnapshot, collection } from 'firebase/firestore';
 
 interface Props {
   month: number;
@@ -23,12 +24,29 @@ const MissionCarousel: React.FC<Props> = ({ month }) => {
 
   useWindowResizeEffect(setWidth);
 
-  const { data } = useGetBirthdayList(month);
   const { push } = useRouter();
 
   const [count, setCount] = useState<number>(10);
 
-  const onCardClick = (birthdayId: number) => {
+  const [data, setData] = useState<BirthdayResponseType[]>([]);
+
+  function subscribeToData() {
+    const unsubscribe = onSnapshot(
+      collection(fireStore, 'birthday'),
+      (snapshot) => {
+        const dataList = snapshot.docs.map((doc) => ({
+          id: doc.id,
+          ...doc.data(),
+        }));
+        setData(dataList as any[]);
+        console.log('Real-time data:', dataList);
+      }
+    );
+
+    return unsubscribe;
+  }
+
+  const onCardClick = (birthdayId: string) => {
     push(`/${birthdayId}`);
   };
 
@@ -48,23 +66,32 @@ const MissionCarousel: React.FC<Props> = ({ month }) => {
 
     const newBirthdayList: BirthdayResponseType[][] = [];
     let temp: BirthdayResponseType[] = [];
-    data?.data.forEach((item, index) => {
+    data.forEach((item, index) => {
       temp.push(item);
       if ((index + 1) % cnt === 0) {
         newBirthdayList.push(temp);
         temp = [];
       }
     });
-    if (data?.data)
+    if (data)
       newBirthdayList.push(
-        data.data.slice(newBirthdayList.length * cnt, data.data.length)
+        data.slice(newBirthdayList.length * cnt, data.length)
       );
+
     setBirthdayList(newBirthdayList);
   };
 
   useEffect(() => {
     setArray();
-  }, [data?.data, width]);
+  }, [data, width]);
+
+  useEffect(() => {
+    const unsubscribe = subscribeToData();
+
+    return () => {
+      unsubscribe();
+    };
+  }, []);
 
   const moveLeft = () => {
     if (pageIndex > 0) setPageIndex((prev) => prev - 1);

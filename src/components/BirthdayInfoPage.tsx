@@ -3,14 +3,24 @@
 import styled from '@emotion/styled';
 
 import { Frame, VectorIcon } from '@/assets';
-import { usePostComment, useGetBirthday, useGetCommentList } from '@/hooks';
 import { Comment } from '.';
-import { CommentType } from '@/types';
+import { BirthdayResponseType, CommentType } from '@/types';
 import { formatDate, isSameMonthAndDay } from '@/utils';
 
 import { toast } from 'react-toastify';
 
-import { useState } from 'react';
+import { useEffect, useState } from 'react';
+import fireStore from '@/firebase/firestore';
+import {
+  addDoc,
+  collection,
+  doc,
+  getDoc,
+  getDocs,
+  query,
+  where,
+} from 'firebase/firestore';
+import { useRouter } from 'next/navigation';
 
 interface Props {
   birthdayId: string;
@@ -22,25 +32,76 @@ const BirthdayInfo: React.FC<Props> = ({ birthdayId }) => {
   const [isWrite, setIsWrite] = useState<boolean>(false);
   const [isSeeComment, setIsSeeComment] = useState<boolean>(false);
   const [index, setIndex] = useState<number>(-1);
+  const [data, setData] = useState<BirthdayResponseType>();
+  const [comments, setComments] = useState<CommentType[]>([]);
 
-  const { data } = useGetBirthday(parseInt(birthdayId));
-  const { data: comments } = useGetCommentList(parseInt(birthdayId));
+  const fetchBirthdayById = async (id: string) => {
+    try {
+      const docRef = doc(fireStore, 'birthday', id);
+      const docSnap = await getDoc(docRef);
 
-  const { mutate, isSuccess, isPending } = usePostComment({
-    onSuccess: () => {
-      window.location.reload();
-    },
-  });
+      if (docSnap.exists()) {
+        const birthdayData = docSnap.data();
+        console.log('Birthday data:', birthdayData);
+        return {
+          ...birthdayData,
+          id: docSnap.id,
+        };
+      } else {
+        console.log('No such document!');
+        return null;
+      }
+    } catch (error) {
+      console.error('Error fetching document:', error);
+      throw error;
+    }
+  };
 
-  const onSubmit = () => {
+  const fetchCommentById = async (id: string) => {
+    try {
+      const commentsRef = collection(fireStore, 'comment');
+      const q = query(commentsRef, where('key', '==', id));
+
+      const querySnapshot = await getDocs(q);
+
+      if (querySnapshot.empty) {
+        return [];
+      }
+
+      return querySnapshot.docs.map((v) => v.data());
+    } catch (error) {
+      console.error('Error fetching documents:', error);
+      throw error;
+    }
+  };
+
+  const fetchAll = async () => {
+    const data = (await fetchBirthdayById(birthdayId)) as BirthdayResponseType;
+    if (data) setData(data);
+
+    const comment = (await fetchCommentById(birthdayId)) as CommentType[];
+    if (comment) setComments(comment);
+  };
+  useEffect(() => {
+    fetchAll();
+  }, [isWrite]);
+
+  const onSubmit = async () => {
     if (inputValue.replaceAll('\n', '').replaceAll('\u0020', '').length !== 0) {
-      const req: CommentType = {
-        name: name.length > 0 ? name : '익명의 사용자',
-        content: inputValue,
-        key: data?.data.id ?? 0,
-      };
+      try {
+        const req: CommentType = {
+          name: name.length > 0 ? name : '익명의 사용자',
+          content: inputValue,
+          key: data?.id ?? '',
+        };
 
-      mutate(req);
+        await addDoc(collection(fireStore, 'comment'), req);
+        toast.success('등록 완료!');
+        setIsWrite(false);
+      } catch (error) {
+        console.error('Error adding document: ', error);
+        toast.error('등록 실패');
+      }
     } else toast.error('내용을 입력해주세요.');
   };
 
@@ -54,7 +115,7 @@ const BirthdayInfo: React.FC<Props> = ({ birthdayId }) => {
 
   const goNext = () => {
     setIsSeeComment(true);
-    if ((comments?.data.length ?? 0) > index + 1) setIndex((prev) => prev + 1);
+    if ((comments.length ?? 0) > index + 1) setIndex((prev) => prev + 1);
   };
 
   const goPrev = () => {
@@ -64,16 +125,19 @@ const BirthdayInfo: React.FC<Props> = ({ birthdayId }) => {
     } else setIndex((prev) => prev - 1);
   };
 
+  const { push } = useRouter();
+
   return (
     <Container>
       <meta
         name='viewport'
         content='width=device-width, initial-scale=1, maximum-scale=1'
       />
-      {data?.data ? (
+      <HomeButton onClick={() => push('/')}>홈으로</HomeButton>
+      {data ? (
         <BackBoard>
           <FrameContainer>
-            <DateText>{formatDate(new Date())}</DateText>
+            <DateText>{formatDate(new Date().toISOString())}</DateText>
             {!isWrite ? (
               <>
                 <Frame />
@@ -81,19 +145,19 @@ const BirthdayInfo: React.FC<Props> = ({ birthdayId }) => {
                   {isSeeComment ? (
                     <>
                       <CongUser>
-                        {comments?.data[index].name ?? '이름을 알 수 없어요'}
+                        {comments[index].name ?? '이름을 알 수 없어요'}
                       </CongUser>
                       <CongText>
-                        {comments?.data[index].content ?? '콘텐츠가 없어요'}
+                        {comments[index].content ?? '콘텐츠가 없어요'}
                       </CongText>
                     </>
                   ) : (
                     <>
                       <CongUser>
-                        {isSameMonthAndDay(data.data.birthday)
+                        {isSameMonthAndDay(data.birthday)
                           ? '오늘은'
-                          : formatDate(data.data.birthday)}{' '}
-                        {data.data.name}님의 생일이에요!!
+                          : formatDate(data.birthday)}{' '}
+                        {data.name}님의 생일이에요!!
                       </CongUser>
                       <AfterText>
                         페이지를 넘겨서 축하메시지를 확인해보세요!
@@ -101,11 +165,12 @@ const BirthdayInfo: React.FC<Props> = ({ birthdayId }) => {
                     </>
                   )}
                 </TextContainer>
-                {(comments?.data.length ?? 0) > 0 && (
-                  <NextButton onClick={goNext}>
-                    <VectorIcon />
-                  </NextButton>
-                )}
+                {(comments.length ?? 0) > 0 &&
+                  comments.length - 1 !== index && (
+                    <NextButton onClick={goNext}>
+                      <VectorIcon />
+                    </NextButton>
+                  )}
                 {index > -1 && (
                   <PrevButton onClick={goPrev}>
                     <VectorIcon />
@@ -115,7 +180,7 @@ const BirthdayInfo: React.FC<Props> = ({ birthdayId }) => {
             ) : (
               <Comment inputValue={inputValue} setInputValue={setInputValue} />
             )}
-            <CongButton disabled={isPending || isSuccess} onClick={onClick}>
+            <CongButton onClick={onClick}>
               {!isWrite ? '축하메세지 쓰기' : '메시지 등록하기'}
             </CongButton>
           </FrameContainer>
@@ -196,6 +261,38 @@ const DateText = styled.span`
 
   @media (max-width: 930px) {
     left: 3.8rem;
+  }
+`;
+const HomeButton = styled.button`
+  border-radius: 12px;
+  background: linear-gradient(45deg, #ffeb82, #ff9a8b);
+  backdrop-filter: blur(10px);
+  box-shadow: 0 8px 16px rgba(0, 0, 0, 0.1);
+  transition: all 0.3s ease;
+
+  display: flex;
+  justify-content: center;
+  align-items: center;
+
+  color: #000;
+  font-size: 1.6rem;
+  font-weight: 600;
+  padding: 1.25rem 2rem;
+  margin-bottom: 0.75rem;
+
+  &:hover {
+    background: linear-gradient(45deg, #ff9a8b, #ffeb82);
+    transform: scale(1.05);
+    box-shadow: 0 12px 24px rgba(0, 0, 0, 0.2);
+  }
+
+  &:focus {
+    outline: none;
+  }
+
+  &:active {
+    transform: scale(0.98);
+    box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
   }
 `;
 

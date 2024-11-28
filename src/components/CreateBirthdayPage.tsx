@@ -2,8 +2,6 @@
 
 import styled from '@emotion/styled';
 
-import { usePostBirthday } from '@/hooks';
-
 import { Dayjs } from 'dayjs';
 import { DemoContainer } from '@mui/x-date-pickers/internals/demo';
 import { AdapterDayjs } from '@mui/x-date-pickers/AdapterDayjs';
@@ -14,31 +12,42 @@ import { toast } from 'react-toastify';
 
 import { useEffect, useState } from 'react';
 import { useRouter } from 'next/navigation';
+import { collection, addDoc } from 'firebase/firestore';
+import { getStorage } from 'firebase/storage';
+import fireStore from '@/firebase/firestore';
 
 const CreateBirthdayPage = () => {
   const [birthday, setBirthday] = useState<Dayjs | null>(null);
   const [name, setName] = useState<string>('');
+  const storage = getStorage();
 
   const { push } = useRouter();
-
-  const { mutate: birthdayMutate, isPending, isSuccess } = usePostBirthday();
 
   useEffect(() => {
     const newDate = birthday?.format();
     if (newDate) console.log(new Date(newDate));
   }, [birthday]);
 
-  const onSubmit = () => {
+  const onSubmit = async () => {
     const newDate = birthday?.format();
     if (name && newDate)
-      birthdayMutate({
-        name: name,
-        birthday: new Date(newDate),
-      });
+      try {
+        const dataToSave = {
+          name: name,
+          birthday: new Date(newDate).toISOString(),
+        };
+
+        await addDoc(collection(fireStore, 'birthday'), dataToSave);
+        toast.success('등록 완료!');
+        push('/');
+      } catch (error) {
+        console.error('Error adding document: ', error);
+        toast.error('등록 실패');
+      }
     else toast.error('입력되지 않은 빈칸이 있습니다.');
   };
 
-  if (isSuccess) push('/');
+  // if (isSuccess) push('/');
 
   return (
     <>
@@ -63,9 +72,7 @@ const CreateBirthdayPage = () => {
           />
         </FrameContainer>
         <ButtonWrapper>
-          <SubmitButton disabled={isPending || isSuccess} onClick={onSubmit}>
-            생성
-          </SubmitButton>
+          <SubmitButton onClick={onSubmit}>생성</SubmitButton>
           <SubmitButton onClick={() => push('/')}>취소</SubmitButton>
         </ButtonWrapper>
       </Container>

@@ -15,7 +15,7 @@ import { useRouter } from 'next/navigation';
 const TWO_LINE_SIZE = 930;
 
 const MainPage = () => {
-  const today = formatDate(new Date());
+  const today = formatDate(new Date().toISOString());
 
   const [index, setIndex] = useState(parseInt(today.slice(4, 6)));
   const [intro, setIntro] = useState<boolean>(true);

@@ -8,7 +8,7 @@ import { formatDate, isSameMonthAndDay } from '@/utils';
 interface Props {
   onClick: () => void;
   name: string;
-  birthday: Date;
+  birthday: string;
 }
 
 const BirthdayContent: React.FC<Props> = ({ birthday, name, onClick }) => (

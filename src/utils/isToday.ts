@@ -1,4 +1,4 @@
-export function isSameMonthAndDay(dateString: Date) {
+export function isSameMonthAndDay(dateString: string) {
   const currentDate = new Date();
   const targetDate = new Date(dateString);
 
