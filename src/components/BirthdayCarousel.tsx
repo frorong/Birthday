@@ -46,7 +46,7 @@ const MissionCarousel: React.FC<Props> = ({ month }) => {
     return unsubscribe;
   }
 
-  const onCardClick = (birthdayId: number) => {
+  const onCardClick = (birthdayId: string) => {
     push(`/${birthdayId}`);
   };
 
@@ -78,7 +78,6 @@ const MissionCarousel: React.FC<Props> = ({ month }) => {
         data.slice(newBirthdayList.length * cnt, data.length)
       );
 
-    console.log(data);
     setBirthdayList(newBirthdayList);
   };
 

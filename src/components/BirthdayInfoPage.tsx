@@ -11,7 +11,15 @@ import { toast } from 'react-toastify';
 
 import { useEffect, useState } from 'react';
 import fireStore from '@/firebase/firestore';
-import { addDoc, collection, doc, getDoc } from 'firebase/firestore';
+import {
+  addDoc,
+  collection,
+  doc,
+  getDoc,
+  getDocs,
+  query,
+  where,
+} from 'firebase/firestore';
 
 interface Props {
   birthdayId: string;
@@ -34,7 +42,10 @@ const BirthdayInfo: React.FC<Props> = ({ birthdayId }) => {
       if (docSnap.exists()) {
         const birthdayData = docSnap.data();
         console.log('Birthday data:', birthdayData);
-        return birthdayData;
+        return {
+          ...birthdayData,
+          id: docSnap.id,
+        };
       } else {
         console.log('No such document!');
         return null;
@@ -47,19 +58,18 @@ const BirthdayInfo: React.FC<Props> = ({ birthdayId }) => {
 
   const fetchCommentById = async (id: string) => {
     try {
-      const docRef = doc(fireStore, 'comment', id);
-      const docSnap = await getDoc(docRef);
+      const commentsRef = collection(fireStore, 'comment');
+      const q = query(commentsRef, where('key', '==', id));
 
-      if (docSnap.exists()) {
-        const birthdayData = docSnap.data();
-        console.log('Birthday data:', birthdayData);
-        return birthdayData;
-      } else {
-        console.log('No such document!');
-        return null;
+      const querySnapshot = await getDocs(q);
+
+      if (querySnapshot.empty) {
+        return [];
       }
+
+      return querySnapshot.docs.map((v) => v.data());
     } catch (error) {
-      console.error('Error fetching document:', error);
+      console.error('Error fetching documents:', error);
       throw error;
     }
   };
@@ -81,7 +91,7 @@ const BirthdayInfo: React.FC<Props> = ({ birthdayId }) => {
         const req: CommentType = {
           name: name.length > 0 ? name : '익명의 사용자',
           content: inputValue,
-          key: data?.id ?? 0,
+          key: data?.id ?? '',
         };
 
         await addDoc(collection(fireStore, 'comment'), req);

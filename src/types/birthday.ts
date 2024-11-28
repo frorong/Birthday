@@ -4,7 +4,7 @@ export interface BirthdayType {
 }
 
 export interface BirthdayResponseType extends BirthdayType {
-  id: number;
+  id: string;
   createdAt: Date;
   updatedAt: Date;
 }

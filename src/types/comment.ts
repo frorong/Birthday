@@ -1,11 +1,11 @@
 export interface CommentType {
   name: string;
   content: string;
-  key: number;
+  key: string;
 }
 
 export interface CommentResponseType extends CommentType {
-  id: number;
+  id: string;
   createdAt: Date;
   updatedAt: Date;
 }
