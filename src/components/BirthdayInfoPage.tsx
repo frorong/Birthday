@@ -20,6 +20,7 @@ import {
   query,
   where,
 } from 'firebase/firestore';
+import { useRouter } from 'next/navigation';
 
 interface Props {
   birthdayId: string;
@@ -124,12 +125,15 @@ const BirthdayInfo: React.FC<Props> = ({ birthdayId }) => {
     } else setIndex((prev) => prev - 1);
   };
 
+  const { push } = useRouter();
+
   return (
     <Container>
       <meta
         name='viewport'
         content='width=device-width, initial-scale=1, maximum-scale=1'
       />
+      <HomeButton onClick={() => push('/')}>홈으로</HomeButton>
       {data ? (
         <BackBoard>
           <FrameContainer>
@@ -161,11 +165,12 @@ const BirthdayInfo: React.FC<Props> = ({ birthdayId }) => {
                     </>
                   )}
                 </TextContainer>
-                {(comments.length ?? 0) > 0 && (
-                  <NextButton onClick={goNext}>
-                    <VectorIcon />
-                  </NextButton>
-                )}
+                {(comments.length ?? 0) > 0 &&
+                  comments.length - 1 !== index && (
+                    <NextButton onClick={goNext}>
+                      <VectorIcon />
+                    </NextButton>
+                  )}
                 {index > -1 && (
                   <PrevButton onClick={goPrev}>
                     <VectorIcon />
@@ -256,6 +261,38 @@ const DateText = styled.span`
 
   @media (max-width: 930px) {
     left: 3.8rem;
+  }
+`;
+const HomeButton = styled.button`
+  border-radius: 12px;
+  background: linear-gradient(45deg, #ffeb82, #ff9a8b);
+  backdrop-filter: blur(10px);
+  box-shadow: 0 8px 16px rgba(0, 0, 0, 0.1);
+  transition: all 0.3s ease;
+
+  display: flex;
+  justify-content: center;
+  align-items: center;
+
+  color: #000;
+  font-size: 1.6rem;
+  font-weight: 600;
+  padding: 1.25rem 2rem;
+  margin-bottom: 0.75rem;
+
+  &:hover {
+    background: linear-gradient(45deg, #ff9a8b, #ffeb82);
+    transform: scale(1.05);
+    box-shadow: 0 12px 24px rgba(0, 0, 0, 0.2);
+  }
+
+  &:focus {
+    outline: none;
+  }
+
+  &:active {
+    transform: scale(0.98);
+    box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
   }
 `;
 
