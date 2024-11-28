@@ -25,11 +25,13 @@ const CreateBirthdayPage = () => {
 
   const onSubmit = async () => {
     const newDate = birthday?.format();
-    if (name && newDate)
+    if (name && newDate) {
+      const date = new Date(newDate);
       try {
         const dataToSave = {
           name: name,
-          birthday: new Date(newDate).toISOString(),
+          birthday: date.toISOString(),
+          month: String(date.getMonth() + 1).padStart(2, '0'),
         };
 
         await addDoc(collection(fireStore, 'birthday'), dataToSave);
@@ -38,7 +40,7 @@ const CreateBirthdayPage = () => {
       } catch (error) {
         toast.error('등록 실패');
       }
-    else toast.error('입력되지 않은 빈칸이 있습니다.');
+    } else toast.error('입력되지 않은 빈칸이 있습니다.');
   };
 
   return (

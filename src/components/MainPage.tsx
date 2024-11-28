@@ -28,6 +28,8 @@ const MainPage = () => {
   useWindowResizeEffect(setWidth);
 
   useEffect(() => {
+    const month = new Date().getMonth();
+    setIndex(month);
     setTimeout(() => setIntro(false), 2000);
     setInterval(() => {
       setOpacity((prev) => prev - 0.004);

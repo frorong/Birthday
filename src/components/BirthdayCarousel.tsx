@@ -11,7 +11,7 @@ import { BirthdayContent } from '@/components';
 import styled from '@emotion/styled';
 import { useWindowResizeEffect } from '@/utils';
 import fireStore from '@/firebase/firestore';
-import { onSnapshot, collection } from 'firebase/firestore';
+import { onSnapshot, collection, query, where } from 'firebase/firestore';
 
 interface Props {
   month: number;
@@ -30,9 +30,12 @@ const MissionCarousel: React.FC<Props> = ({ month }) => {
 
   const [data, setData] = useState<BirthdayResponseType[]>([]);
 
-  function subscribeToData() {
+  const subscribeToData = () => {
     const unsubscribe = onSnapshot(
-      collection(fireStore, 'birthday'),
+      query(
+        collection(fireStore, 'birthday'),
+        where('month', '==', String(month).padStart(2, '0')) // month에 맞는 데이터 필터링
+      ),
       (snapshot) => {
         const dataList = snapshot.docs.map((doc) => ({
           id: doc.id,
@@ -43,7 +46,15 @@ const MissionCarousel: React.FC<Props> = ({ month }) => {
     );
 
     return unsubscribe;
-  }
+  };
+
+  useEffect(() => {
+    const unsubscribe = subscribeToData();
+
+    return () => {
+      unsubscribe();
+    };
+  }, [month]);
 
   const onCardClick = (birthdayId: string) => {
     push(`/${birthdayId}`);
@@ -83,14 +94,6 @@ const MissionCarousel: React.FC<Props> = ({ month }) => {
   useEffect(() => {
     setArray();
   }, [data, width]);
-
-  useEffect(() => {
-    const unsubscribe = subscribeToData();
-
-    return () => {
-      unsubscribe();
-    };
-  }, []);
 
   const moveLeft = () => {
     if (pageIndex > 0) setPageIndex((prev) => prev - 1);
