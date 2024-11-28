@@ -39,7 +39,6 @@ const MissionCarousel: React.FC<Props> = ({ month }) => {
           ...doc.data(),
         }));
         setData(dataList as any[]);
-        console.log('Real-time data:', dataList);
       }
     );
 

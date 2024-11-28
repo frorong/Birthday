@@ -42,17 +42,14 @@ const BirthdayInfo: React.FC<Props> = ({ birthdayId }) => {
 
       if (docSnap.exists()) {
         const birthdayData = docSnap.data();
-        console.log('Birthday data:', birthdayData);
         return {
           ...birthdayData,
           id: docSnap.id,
         };
       } else {
-        console.log('No such document!');
         return null;
       }
     } catch (error) {
-      console.error('Error fetching document:', error);
       throw error;
     }
   };
@@ -70,7 +67,6 @@ const BirthdayInfo: React.FC<Props> = ({ birthdayId }) => {
 
       return querySnapshot.docs.map((v) => v.data());
     } catch (error) {
-      console.error('Error fetching documents:', error);
       throw error;
     }
   };
@@ -99,7 +95,6 @@ const BirthdayInfo: React.FC<Props> = ({ birthdayId }) => {
         toast.success('등록 완료!');
         setIsWrite(false);
       } catch (error) {
-        console.error('Error adding document: ', error);
         toast.error('등록 실패');
       }
     } else toast.error('내용을 입력해주세요.');

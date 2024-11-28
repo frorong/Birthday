@@ -23,11 +23,6 @@ const CreateBirthdayPage = () => {
 
   const { push } = useRouter();
 
-  useEffect(() => {
-    const newDate = birthday?.format();
-    if (newDate) console.log(new Date(newDate));
-  }, [birthday]);
-
   const onSubmit = async () => {
     const newDate = birthday?.format();
     if (name && newDate)
@@ -41,13 +36,10 @@ const CreateBirthdayPage = () => {
         toast.success('등록 완료!');
         push('/');
       } catch (error) {
-        console.error('Error adding document: ', error);
         toast.error('등록 실패');
       }
     else toast.error('입력되지 않은 빈칸이 있습니다.');
   };
-
-  // if (isSuccess) push('/');
 
   return (
     <>
