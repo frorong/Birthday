@@ -83,7 +83,7 @@ const BirthdayInfo: React.FC<Props> = ({ birthdayId }) => {
   };
   useEffect(() => {
     fetchAll();
-  }, []);
+  }, [isWrite]);
 
   const onSubmit = async () => {
     if (inputValue.replaceAll('\n', '').replaceAll('\u0020', '').length !== 0) {
@@ -95,7 +95,8 @@ const BirthdayInfo: React.FC<Props> = ({ birthdayId }) => {
         };
 
         await addDoc(collection(fireStore, 'comment'), req);
-        toast.error('등록 완료!');
+        toast.success('등록 완료!');
+        setIsWrite(false);
       } catch (error) {
         console.error('Error adding document: ', error);
         toast.error('등록 실패');

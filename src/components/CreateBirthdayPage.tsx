@@ -38,7 +38,7 @@ const CreateBirthdayPage = () => {
         };
 
         await addDoc(collection(fireStore, 'birthday'), dataToSave);
-        toast.error('등록 완료!');
+        toast.success('등록 완료!');
         push('/');
       } catch (error) {
         console.error('Error adding document: ', error);
