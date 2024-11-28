@@ -3,7 +3,6 @@
 import styled from '@emotion/styled';
 
 import { Frame, VectorIcon } from '@/assets';
-// import { usePostComment, useGetBirthday, useGetCommentList } from '@/hooks';
 import { Comment } from '.';
 import { BirthdayResponseType, CommentType } from '@/types';
 import { formatDate, isSameMonthAndDay } from '@/utils';
@@ -12,7 +11,6 @@ import { toast } from 'react-toastify';
 
 import { useEffect, useState } from 'react';
 import fireStore from '@/firebase/firestore';
-import { push } from 'firebase/database';
 import { addDoc, collection, doc, getDoc } from 'firebase/firestore';
 
 interface Props {
@@ -124,7 +122,7 @@ const BirthdayInfo: React.FC<Props> = ({ birthdayId }) => {
       {data ? (
         <BackBoard>
           <FrameContainer>
-            <DateText>{formatDate(new Date())}</DateText>
+            <DateText>{formatDate(new Date().toISOString())}</DateText>
             {!isWrite ? (
               <>
                 <Frame />

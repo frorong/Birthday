@@ -1,6 +1,6 @@
 export interface BirthdayType {
   name: string;
-  birthday: Date;
+  birthday: string;
 }
 
 export interface BirthdayResponseType extends BirthdayType {

@@ -77,6 +77,8 @@ const MissionCarousel: React.FC<Props> = ({ month }) => {
       newBirthdayList.push(
         data.slice(newBirthdayList.length * cnt, data.length)
       );
+
+    console.log(data);
     setBirthdayList(newBirthdayList);
   };
 

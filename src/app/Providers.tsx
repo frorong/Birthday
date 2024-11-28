@@ -8,8 +8,6 @@ import { Global, css } from '@emotion/react';
 
 import { PupleIcon, GreenIcon, YellowIcon } from '@/assets';
 
-import { QueryClient, QueryClientProvider } from '@tanstack/react-query';
-import { useState } from 'react';
 import { ToastContainer } from 'react-toastify';
 
 interface Props {
@@ -17,17 +15,6 @@ interface Props {
 }
 
 const Providers: React.FC<Props> = ({ children }) => {
-  const [queryClient] = useState(
-    () =>
-      new QueryClient({
-        defaultOptions: {
-          queries: {
-            retry: false,
-          },
-        },
-      })
-  );
-
   return (
     <>
       <Global
@@ -130,7 +117,7 @@ const Providers: React.FC<Props> = ({ children }) => {
         <GreenIcon />
       </div>
       <ToastContainer />
-      <QueryClientProvider client={queryClient}>{children}</QueryClientProvider>
+      {children}
     </>
   );
 };

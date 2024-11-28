@@ -23,8 +23,6 @@ const CreateBirthdayPage = () => {
 
   const { push } = useRouter();
 
-  // const { mutate: birthdayMutate, isPending, isSuccess } = usePostBirthday();
-
   useEffect(() => {
     const newDate = birthday?.format();
     if (newDate) console.log(new Date(newDate));
@@ -36,7 +34,7 @@ const CreateBirthdayPage = () => {
       try {
         const dataToSave = {
           name: name,
-          birthday: new Date(newDate),
+          birthday: new Date(newDate).toISOString(),
         };
 
         await addDoc(collection(fireStore, 'birthday'), dataToSave);

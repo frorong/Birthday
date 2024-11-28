@@ -2,8 +2,6 @@
 
 import styled from '@emotion/styled';
 
-import { usePostComment } from '@/hooks';
-
 import { Dispatch, SetStateAction } from 'react';
 
 interface Props {

@@ -1,4 +1,4 @@
-export const formatDate = (inputDateString: Date) => {
+export const formatDate = (inputDateString: string) => {
   const daysOfWeek = ['일', '월', '화', '수', '목', '금', '토'];
 
   const date = new Date(inputDateString);
