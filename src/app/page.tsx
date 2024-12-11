@@ -92,7 +92,13 @@ export default function Home() {
           <h1 className="text-2xl sm:text-4xl md:text-5xl lg:text-6xl font-bold text-center ">
             🤭 토스 링크로 낚시 해보면 재밌겠다 ㅋㅋ
             <br />
+            <br />
+            <br />
             현재 낚인 사람 수 {fishCount}명
+            <br />
+            <br />
+            <br />
+            10000명이 낚이면 진짜 선물 쏩니다.
           </h1>
         </div>
         <div className="w-full h-full"></div>
