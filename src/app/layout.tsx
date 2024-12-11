@@ -21,12 +21,13 @@ export const metadata: Metadata = {
     type: "website",
     images: [
       {
-        url: "/opengraph.png",
+        url: "https://toss-im-mn12ads1gdd8fd6f.vercel.app/open-graph.png", // 절대 URL로 변경
         width: 1200,
         height: 630,
         alt: "산타의 선물",
       },
     ],
+    siteName: "산타의 선물",
   },
 };
 
